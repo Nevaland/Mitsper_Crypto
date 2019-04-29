@@ -3,7 +3,18 @@ package Crypto;
 import java.util.Scanner;
 
 public class Main {
+	public static void test() {
+		Util util = new Util();
+		String str = "TEST12^@";
+		System.out.println(str);
+		System.out.println(util.str2hex(str));
+		
+		Mitsper ms = new Mitsper("key",str);
+		
+		System.exit(0);
+	}
 	public static void main(String[] args) {
+//        test();
 		// Basic Variables
 		int selection;
 		String content="default";
@@ -38,11 +49,11 @@ public class Main {
 	        // Main Action
 	        switch(selection) {
 	        case 1:
-	        	mc.setContent(content);
+	        	mc.setContents(content);
 	            System.out.println("Encrypted String: "+mc.encrypt()+"\n");
 	        	break;
 	        case 2:
-	        	mc.setContent(content);
+	        	mc.setContents(content);
 	            System.out.println("Decrypted String: "+mc.decrypt()+"\n");
 	        	break;
 	        case 3:
