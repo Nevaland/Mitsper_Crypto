@@ -3,17 +3,6 @@ package Crypto;
 import java.util.Scanner;
 
 public class Main {
-//	static public void eHandle_selection(int selection) {
-//		while(true) {
-//			try {
-//				// code
-//				break;
-//			}
-//			catch( Exception e) {
-//				continue;
-//			}
-//		}
-//	}
 	public static void main(String[] args) {
 		// Basic Variables
 		int selection;
@@ -33,7 +22,6 @@ public class Main {
 					+ "2. Decryption\n"
 					+ "3. Key Setting\n"
 					+ "4. Exit\n");
-//			eHandle_selection(selection);
 	        System.out.print("Please Select Menu: ");
 	        selection = scan.nextInt();
 	        scan.nextLine();
@@ -43,23 +31,24 @@ public class Main {
 	        }
 	        
 	        // Enter a String
-	        System.out.print("Please Enter a String: ");
-	        content = scan.nextLine();
-	        
+	        if(selection != 3) {
+		        System.out.print("Please Enter a String: ");
+		        content = scan.nextLine();
+	        }
 	        // Main Action
 	        switch(selection) {
 	        case 1:
-	        	mc.contentSet(content);
+	        	mc.setContent(content);
 	            System.out.println("Encrypted String: "+mc.encrypt()+"\n");
 	        	break;
 	        case 2:
-	        	mc.contentSet(content);
+	        	mc.setContent(content);
 	            System.out.println("Decrypted String: "+mc.decrypt()+"\n");
 	        	break;
 	        case 3:
 	            System.out.print("Current Key: "+key+"\nYour Key: ");
 	            key = scan.nextLine();
-	            mc.keySet(key);
+	            mc.setKey(key);
 	        	break;
 	        default:
 	        	System.out.println("[ERROR] "+selection+" is Invalid Number");

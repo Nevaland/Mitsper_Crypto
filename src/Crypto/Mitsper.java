@@ -7,10 +7,10 @@ public class Mitsper {
 		this.c_object = new ChessObject(key, content);
 	}
 
-	public void keySet(String key) {
+	public void setKey(String key) {
 		this.c_object.setKey(key);
 	}
-	public void contentSet(String content) {
+	public void setContent(String content) {
 		this.c_object.setBlock(content);
 	}
 	
