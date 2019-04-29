@@ -9,9 +9,10 @@ public class ChessObject {
 		this.key = new Key(key);
 		this.setBlock(content);
 	}
+	
 	public void setBlock(String content) {
-		this.block[0] = content;	// sample
-		this.block[1] = content;	// sample
+		this.block[0] = content.substring(0, 32);
+		this.block[1] = content.substring(32, 64);
 	}
 	public void setKey(String key) {
 		this.key = new Key(key);
