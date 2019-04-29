@@ -45,6 +45,7 @@ public class Mitsper {
 			this.c_object = new ChessObject(key, content);
 
 //			// test
+			this.c_object.test();
 //			System.out.print("[test]"+len); String test = content;
 //			for(int j=0; j<test.length();j+=2) {if(j%8==0) System.out.println(); System.out.print(test.substring(j, j+2)+" ");}
 			
