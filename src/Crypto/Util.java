@@ -6,7 +6,7 @@ public class Util {
 		
 		for(int i = 0; i<str.length(); i++){
 			int ch=(int)str.charAt( i );
-			hex += Integer.toHexString( ch );
+			hex += String.format("%02x",ch);
 		}
 		return hex;
 	}
