@@ -5,16 +5,17 @@ import java.util.Scanner;
 public class Main {
 	public static void test() {
 		Util util = new Util();
-		String str = "TEST12^@";
+		String str = "ABCDEDGH";
 		System.out.println(str);
 		System.out.println(util.str2hex(str));
 		
 		Mitsper ms = new Mitsper("key",str);
-		
+		ms.encrypt();
+
 		System.exit(0);
 	}
 	public static void main(String[] args) {
-//        test();
+        test();
 		// Basic Variables
 		int selection;
 		String content="default";
