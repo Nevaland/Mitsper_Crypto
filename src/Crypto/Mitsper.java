@@ -78,13 +78,13 @@ public class Mitsper {
 			// Decryption
 			for(int j=9;j>0;j--) {
 				c_object.inverseCheckmate();
-				c_object.inverseSwitchPiece();
+				c_object.switchPiece();
 				c_object.inverseCheckmate();
 				c_object.inverseMovePiece();
 				c_object.inverseMapPiece(j);
 			}
 			c_object.inverseCheckmate();
-			c_object.inverseSwitchPiece();
+			c_object.switchPiece();
 			c_object.inverseMovePiece();
 			c_object.inverseCheckmate();
 			c_object.inverseMapPiece(0);

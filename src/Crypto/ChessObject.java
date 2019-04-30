@@ -25,7 +25,7 @@ public class ChessObject {
 		this.block[0] = content.substring(0, 32);
 		this.block[1] = content.substring(32, 64);
 	}	
-	private void placing() {
+	private void placing() { // need to remove or change
 		for(int i=0; i<32; i+=2) {
 			int posit = Integer.parseInt(this.block[1].substring(i, i+2),16);
 			if(this.board[posit] != null)
@@ -166,8 +166,8 @@ public class ChessObject {
 		maped_block[0] = addKey(round,this.block[0]);
 		maped_block[1] = addKey(round,this.block[1]);
 
-		maped_block[0] = loc2val(maped_block[0]);
-		maped_block[1] = val2loc(maped_block[1]);
+		maped_block[0] = val2loc(maped_block[0]);
+		maped_block[1] = loc2val(maped_block[1]);
 		
 		maped_block[0] = subKey(round,maped_block[0]);
 		maped_block[1] = subKey(round,maped_block[1]);
@@ -201,13 +201,6 @@ public class ChessObject {
 			}
 		}
 	}
-	public void inverseSwitchPiece() {
-		String switched_block="";
-		for(int i=0; i<32; i+=2)
-			switched_block += String.format("%02x",Integer.parseInt(this.block[0].substring(i, i+2), 16)^Integer.parseInt(this.block[1].substring(i, i+2), 16));
-		this.block[0] = switched_block;	
-	}
-
 	public void test() {
 		System.out.println("block[0]: "+this.block[0]);
 		System.out.println("block[1]: "+this.block[1]);
