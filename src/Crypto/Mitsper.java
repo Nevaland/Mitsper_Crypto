@@ -77,17 +77,17 @@ public class Mitsper {
 
 			// Decryption
 			for(int j=9;j>0;j--) {
-				c_object.checkmate();
-				c_object.switchPiece();
-				c_object.checkmate();
-				c_object.movePiece();
-				c_object.mapPiece(j);
+				c_object.inverseCheckmate();
+				c_object.inverseSwitchPiece();
+				c_object.inverseCheckmate();
+				c_object.inverseMovePiece();
+				c_object.inverseMapPiece(j);
 			}
-			c_object.checkmate();
-			c_object.switchPiece();
-			c_object.movePiece();
-			c_object.checkmate();
-			c_object.mapPiece(0);
+			c_object.inverseCheckmate();
+			c_object.inverseSwitchPiece();
+			c_object.inverseMovePiece();
+			c_object.inverseCheckmate();
+			c_object.inverseMapPiece(0);
 			decrypted += c_object.getBlocks();
 		}
 		return util.hex2str(decrypted);

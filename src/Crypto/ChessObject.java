@@ -160,7 +160,53 @@ public class ChessObject {
 			switched_block += String.format("%02x",Integer.parseInt(this.block[0].substring(i, i+2), 16)^Integer.parseInt(this.block[1].substring(i, i+2), 16));
 		this.block[0] = switched_block;	
 	}
-//this.block[0] = this.block[0].substring(0,p.index) + this.block[0].substring(p.index,p.index+2) + this.block[0].substring(p.index+2);
+
+	public void inverseMapPiece(int round) {
+		String[] maped_block = new String[2];
+		maped_block[0] = addKey(round,this.block[0]);
+		maped_block[1] = addKey(round,this.block[1]);
+
+		maped_block[0] = loc2val(maped_block[0]);
+		maped_block[1] = val2loc(maped_block[1]);
+		
+		maped_block[0] = subKey(round,maped_block[0]);
+		maped_block[1] = subKey(round,maped_block[1]);
+		this.block = maped_block;
+	}
+	public void inverseCheckmate() {
+		
+	}
+	public void inverseMovePiece() {
+		for(int i=0; i<32; i+=2) {
+			int chesstype = Integer.parseInt(this.block[0].substring(i, i+2),16) % 6;
+			switch(chesstype) {
+			case PWN:
+//				this.block[1]
+				break;
+			case KNIGHT:
+				
+				break;
+			case ROOK:
+				
+				break;
+			case BISHOP:
+				
+				break;
+			case QUEEN:
+				
+				break;
+			case KING:
+				
+				break;
+			}
+		}
+	}
+	public void inverseSwitchPiece() {
+		String switched_block="";
+		for(int i=0; i<32; i+=2)
+			switched_block += String.format("%02x",Integer.parseInt(this.block[0].substring(i, i+2), 16)^Integer.parseInt(this.block[1].substring(i, i+2), 16));
+		this.block[0] = switched_block;	
+	}
 
 	public void test() {
 		System.out.println("block[0]: "+this.block[0]);
