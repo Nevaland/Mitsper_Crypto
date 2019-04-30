@@ -1,7 +1,7 @@
 package Crypto;
 
 public class Mitsper {
-	final int BLOCK_SIZE = 64;
+	private final int BLOCK_SIZE = 64;
 	private String contents, key;
 	private int len;
 	private ChessObject c_object;
@@ -9,19 +9,21 @@ public class Mitsper {
 	
 	public Mitsper(String key, String contents) {
 		this.contents = util.str2hex(contents);
-		this.len = getLen(contents);
+		this.len = getLen(this.contents);
 		padding();
 		this.key = key;
 		
 	}
+
 	private int getLen(String contents) {
 		return contents.length();
 	}
 	private void padding() {
 		// Padding
 		if(len%BLOCK_SIZE != 0) {
-			for(int i=len; i<(len/BLOCK_SIZE)*BLOCK_SIZE+BLOCK_SIZE; i++) this.contents += "00";
-			this.len = getLen(contents);
+//			System.out.println("[padding]"+ this.len);
+			for(int i=len; i<(len/BLOCK_SIZE)*BLOCK_SIZE+BLOCK_SIZE; i+=2) this.contents += "00";
+			this.len = getLen(this.contents);
 		}
 	}
 	private String subContent(String contents, int index) {
@@ -45,23 +47,49 @@ public class Mitsper {
 			this.c_object = new ChessObject(key, content);
 
 //			// test
-			this.c_object.test();
-//			System.out.print("[test]"+len); String test = content;
+//			this.c_object.test();
+//			System.out.println("[len]"+len); // String test = content;
 //			for(int j=0; j<test.length();j+=2) {if(j%8==0) System.out.println(); System.out.print(test.substring(j, j+2)+" ");}
 			
 			// Encryption
-			c_object.checkmate();	// sample
-
-			encrypted+="";
+			c_object.mapPiece(0);
+			c_object.checkmate();
+			c_object.movePiece();
+			c_object.checkmate();
+			c_object.switchPiece();
+			c_object.checkmate();
+			for(int j=1;j<10;j++) {
+				c_object.mapPiece(j);
+				c_object.movePiece();
+				c_object.checkmate();
+				c_object.switchPiece();
+				c_object.checkmate();
+			}
+			encrypted += c_object.getBlocks();
 		}
-		return encrypted;
+		return util.hex2str(encrypted);
 	}
 	public String decrypt() {
-		String decrypted="";
-		for(int i=0; i<5; i++) {
-			c_object.checkmate();	// sample
-			decrypted+="";
+		String content, decrypted="";
+		for(int i=0; i<len/BLOCK_SIZE; i++) {
+			content = subContent(this.contents,i);
+			this.c_object = new ChessObject(key, content);
+
+			// Decryption
+			for(int j=9;j>0;j--) {
+				c_object.checkmate();
+				c_object.switchPiece();
+				c_object.checkmate();
+				c_object.movePiece();
+				c_object.mapPiece(j);
+			}
+			c_object.checkmate();
+			c_object.switchPiece();
+			c_object.movePiece();
+			c_object.checkmate();
+			c_object.mapPiece(0);
+			decrypted += c_object.getBlocks();
 		}
-		return "TEST";	// sample
+		return util.hex2str(decrypted);
 	}
 }
