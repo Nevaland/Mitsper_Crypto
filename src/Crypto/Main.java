@@ -5,17 +5,18 @@ import java.util.Scanner;
 public class Main {
 	public static void test() {
 		Util util = new Util();
-		String str = "ABCDEDGH";
+		String str = "test string is so simple text.";
 		System.out.println(str);
-		System.out.println(util.str2hex(str));
+		//str = str.substring(0,1) + str.substring(2);
+//		System.out.println(util.str2hex(str));
 		
 		Mitsper ms = new Mitsper("key",str);
 		ms.encrypt();
-
+		
 		System.exit(0);
 	}
 	public static void main(String[] args) {
-        test();
+//        test();
 		// Basic Variables
 		int selection;
 		String content="default";
@@ -51,11 +52,11 @@ public class Main {
 	        switch(selection) {
 	        case 1:
 	        	mc.setContents(content);
-	            System.out.println("Encrypted String: "+mc.encrypt()+"\n");
+	            System.out.println("Encrypted String: ["+mc.encrypt()+"]\n");
 	        	break;
 	        case 2:
 	        	mc.setContents(content);
-	            System.out.println("Decrypted String: "+mc.decrypt()+"\n");
+	            System.out.println("Decrypted String: ["+mc.decrypt()+"]\n");
 	        	break;
 	        case 3:
 	            System.out.print("Current Key: "+key+"\nYour Key: ");
