@@ -118,7 +118,13 @@ public class Key
         String keyChanged = util.str2hex(key);
         String[] hexKey = new String[4];
         String[] roundKey = new String[4];
-
+        String[] Rcon = new String[12];
+        
+        for(i=0;i<12;i++)
+        {
+        	Rcon[i] = constantBox.substring(i*8, (i+1)*8);
+        }
+        
         if(keyChanged.length()<32)
         {
             int length = keyChanged.length();
@@ -132,11 +138,97 @@ public class Key
         {
             hexKey[i] = keyChanged.substring(i*8,(i+1)*8);
         }
-        roundKey[0] = hexKey[3];
-
+        
+        
         for(i = 0; i < 12; i++)
         {
-
+        	if(i == 0)
+        	{
+        		for(int j = 0; j < 4; j++)
+        		{
+        			if(j == 0)
+        			{
+		        		roundKey[j] = hexKey[3];
+		                roundKey[j] = roundKey[j].substring(6,8) + roundKey[j].substring(0,6);
+		                String maped_key = "";
+		                for(int k = 0; k < 8; k+=2)
+		                {
+		                	int x, y;
+		                	x = Integer.parseInt((roundKey[j].substring(k,k+1)),16);
+		                	y = Integer.parseInt((roundKey[j].substring(k+1,k+2)),16);
+		                	maped_key += CBox.substring(2*16*x+2*y,2*16*x+2*y+2);
+		                }
+		                roundKey[j] = maped_key;
+		                maped_key = "";
+		                for(int k = 0; k < 8; k+=2)
+		                {
+		                	maped_key += String.format("%02x",
+		                			Integer.parseInt(roundKey[j].substring(k, k+2), 16)^Integer.parseInt(hexKey[j].substring(k, k+2), 16)^Integer.parseInt(Rcon[i].substring(k, k+2), 16));
+		                }
+		                roundKey[j] = maped_key;
+        			}
+        			else
+        			{
+        				roundKey[j] = roundKey[j-1];
+        				String xor_key = "";
+        				
+        				for(int k = 0; k < 8; k+=2)
+        				{
+        					xor_key +=String.format("%02x",
+		                			Integer.parseInt(roundKey[j].substring(k, k+2), 16)^Integer.parseInt(hexKey[j].substring(k, k+2), 16));
+        				}
+        				roundKey[j] = xor_key;
+        			}
+        		}
+        	}
+        	else
+        	{
+        		for(int j = 0; j < 4; j++)
+        		{
+        			hexKey[j] = this.key[i-1].substring(j*8,(j+1)*8);
+        		}
+        		for(int j = 0; j < 4; j++)
+        		{
+        			if(j == 0)
+        			{
+		        		roundKey[j] = hexKey[3];
+		                roundKey[j] = roundKey[j].substring(6,8) + roundKey[j].substring(0,6);
+		                String maped_key = "";
+		                for(int k = 0; k < 8; k+=2)
+		                {
+		                	int x, y;
+		                	x = Integer.parseInt((roundKey[j].substring(k,k+1)),16);
+		                	y = Integer.parseInt((roundKey[j].substring(k+1,k+2)),16);
+		                	maped_key += CBox.substring(2*16*x+2*y,2*16*x+2*y+2);
+		                }
+		                roundKey[j] = maped_key;
+		                maped_key = "";
+		                for(int k = 0; k < 8; k+=2)
+		                {
+		                	maped_key += String.format("%02x",
+		                			Integer.parseInt(roundKey[j].substring(k, k+2), 16)^Integer.parseInt(hexKey[j].substring(k, k+2), 16)^Integer.parseInt(Rcon[i].substring(k, k+2), 16));
+		                }
+		                roundKey[j] = maped_key;
+        			}
+        			else
+        			{
+        				roundKey[j] = roundKey[j-1];
+        				String xor_key = "";
+        				
+        				for(int k = 0; k < 8; k+=2)
+        				{
+        					xor_key +=String.format("%02x",
+		                			Integer.parseInt(roundKey[j].substring(k, k+2), 16)^Integer.parseInt(hexKey[j].substring(k, k+2), 16));
+        				}
+        				roundKey[j] = xor_key;
+        			}
+        		}
+        	}
+        	this.key[i] = "";
+        	for(int j = 0; j < 4; j++)
+        	{
+        		this.key[i] += roundKey[j];
+        	}
         }
 	}
 	
