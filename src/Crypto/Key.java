@@ -5,7 +5,7 @@ import java.lang.Integer;
 
 public class Key
 {
-	private String[] key = new String[12];			//12라운드의 key 배열
+	private String[] key = new String[10];			//12라운드의 key 배열
 	private String CBox = new String();			//chessbox
 	private String constantBox = new String();		//첫 key 생성시 사용될 랜덤한 상수들
     private ConstantNode head = null;
@@ -31,23 +31,21 @@ public class Key
 	public Key(String key)
     {
 		generateConstantBox();
-		generateCBox();
+		generateCBox(key);
 		generateKey(key);
 	}
 	private void generateConstantBox()
 	{
 		int i;
-		Random random = new Random();
 		
-		for(i = 0; i < 48; i++) {
+		for(i = 0; i < 40; i++) {
             if (i % 4 == 0) {
-                int randomInt = random.nextInt(256);
-
-                String randomText = Integer.toHexString(randomInt);
-                if(randomText.length() == 1)
-                    randomText = "0" + randomText;
-                constantBox = constantBox + randomText;
-            } else
+            	String input = Integer.toHexString((i / 4) + 1);
+                if(input.length() == 1)
+                    input = "0" + input;
+                constantBox = constantBox + input;
+            }
+            else
                 constantBox = constantBox + "00";
         }
 	}
@@ -58,7 +56,6 @@ public class Key
         String inputText;
         ConstantNode target = head;
         ConstantNode prevNode = null;
-        ConstantNode nextNode;
         for(i = 0; i < 256; i++)
         {
             inputText = Integer.toHexString(i);
@@ -76,7 +73,7 @@ public class Key
         }
     }
 
-	private void generateCBox()
+	private void generateCBox(String key)
     {
 		/*this.CBox="000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f"
 				+ "202122232425262728292a2b2c2d2e2f303132333435363738393a3b3c3d3e3f"
@@ -86,8 +83,16 @@ public class Key
 				+ "a0a1a2a3a4a5a6a7a8a9aaabacadaeafb0b1b2b3b4b5b6b7b8b9babbbcbdbebf"
 				+ "c0c1c2c3c4c5c6c7c8c9cacbcccdcecfd0d1d2d3d4d5d6d7d8d9dadbdcdddedf"
 				+ "e0e1e2e3e4e5e6e7e8e9eaebecedeeeff0f1f2f3f4f5f6f7f8f9fafbfcfdfeff";*/
+		Util util = new Util();
+		long num_key = 0;
+		String hexKey = util.str2hex(key);
+		for(int i = 0; i<hexKey.length(); i+=2)
+		{
+			num_key += Long.parseLong(hexKey.substring(i, i+2), 16);
+		}
+		
         generateNode();
-        Random random = new Random();
+        Random random = new Random(num_key);
         ConstantNode target = head;
         ConstantNode prevNode = null;
 
@@ -119,8 +124,7 @@ public class Key
         String[] hexKey = new String[4];
         String[] roundKey = new String[4];
         String[] Rcon = new String[12];
-        
-        for(i=0;i<12;i++)
+        for(i=0;i<10;i++)
         {
         	Rcon[i] = constantBox.substring(i*8, (i+1)*8);
         }
@@ -140,7 +144,7 @@ public class Key
         }
         
         
-        for(i = 0; i < 12; i++)
+        for(i = 0; i < 10; i++)
         {
         	if(i == 0)
         	{
@@ -221,6 +225,7 @@ public class Key
 		                			Integer.parseInt(roundKey[j].substring(k, k+2), 16)^Integer.parseInt(hexKey[j].substring(k, k+2), 16));
         				}
         				roundKey[j] = xor_key;
+        				System.out.println(roundKey[j]);
         			}
         		}
         	}
