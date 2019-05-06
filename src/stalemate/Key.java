@@ -1,4 +1,4 @@
-package Crypto;
+package stalemate;
 
 import java.util.Random;
 import java.lang.Integer;

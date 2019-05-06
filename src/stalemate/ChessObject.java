@@ -1,4 +1,4 @@
-package Crypto;
+package stalemate;
 
 public class ChessObject {
 	private final int PWN = 0;

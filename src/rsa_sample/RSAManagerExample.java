@@ -1,4 +1,4 @@
-package RSA;
+package rsa_sample;
 import java.io.*;
 import java.security.*;
 import java.security.spec.*;

@@ -1,4 +1,4 @@
-package Crypto;
+package stalemate;
 
 import java.util.Scanner;
 

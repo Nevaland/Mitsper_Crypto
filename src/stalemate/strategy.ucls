@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <class-diagram version="1.2.3" icons="true" always-add-relationships="false" generalizations="true" realizations="true" 
   associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
-  <class id="1" language="java" name="Crypto.ChessObject" project="Mitsper_Crypto" 
-    file="/Mitsper_Crypto/src/Crypto/ChessObject.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="557" y="306"/>    
+  <class id="1" language="java" name="stalemate.ChessObject" project="Mitsper_Crypto" 
+    file="/Mitsper_Crypto/src/stalemate/ChessObject.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="356" y="299"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="2" language="java" name="Crypto.Mitsper" project="Mitsper_Crypto" 
-    file="/Mitsper_Crypto/src/Crypto/Mitsper.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="378" y="303"/>    
+  <class id="2" language="java" name="stalemate.Mitsper" project="Mitsper_Crypto" 
+    file="/Mitsper_Crypto/src/stalemate/Mitsper.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="177" y="296"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="3" language="java" name="Crypto.Key" project="Mitsper_Crypto" file="/Mitsper_Crypto/src/Crypto/Key.java" 
-    binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="771" y="443"/>    
+  <class id="3" language="java" name="stalemate.Key" project="Mitsper_Crypto" 
+    file="/Mitsper_Crypto/src/stalemate/Key.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="549" y="299"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -31,10 +31,10 @@
   <association id="4">    
     <end type="SOURCE" refId="1" navigable="false">      
       <attribute id="5" name="key">        
-        <position height="18" width="25" x="659" y="351"/>      
+        <position height="18" width="25" x="436" y="277"/>      
       </attribute>      
       <multiplicity id="6" minimum="0" maximum="1">        
-        <position height="16" width="23" x="648" y="380"/>      
+        <position height="16" width="23" x="439" y="304"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="3" navigable="true"/>    

@@ -1,4 +1,4 @@
-package Crypto;
+package stalemate;
 
 public class Mitsper {
 	private final int BLOCK_SIZE = 64;
@@ -10,7 +10,6 @@ public class Mitsper {
 	private ChessObject c_object;
 	private Util util = new Util();
 
-	
 	public Mitsper(String key, String contents) {
 		this.contents = util.str2hex(contents);
 		this.len = getLen(this.contents);
