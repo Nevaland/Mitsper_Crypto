@@ -5,9 +5,9 @@ import java.lang.Integer;
 
 public class Key
 {
-	private String[] key = new String[10];			//12¶ó¿îµåÀÇ key ¹è¿­
+	private String[] key = new String[10];			//12ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ key ï¿½è¿­
 	private String CBox = new String();			//chessbox
-	private String constantBox = new String();		//Ã¹ key »ý¼º½Ã »ç¿ëµÉ ·£´ýÇÑ »ó¼öµé
+	private String constantBox = new String();		//Ã¹ key ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ï¿½
     private ConstantNode head = null;
 
     public class ConstantNode
@@ -225,7 +225,7 @@ public class Key
 		                			Integer.parseInt(roundKey[j].substring(k, k+2), 16)^Integer.parseInt(hexKey[j].substring(k, k+2), 16));
         				}
         				roundKey[j] = xor_key;
-        				System.out.println(roundKey[j]);
+//        				System.out.println(roundKey[j]);
         			}
         		}
         	}
