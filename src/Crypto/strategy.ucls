@@ -12,7 +12,7 @@
   </class>  
   <class id="2" language="java" name="Crypto.Piece" project="Mitsper_Crypto" 
     file="/Mitsper_Crypto/src/Crypto/Piece.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="773" y="230"/>    
+    <position height="-1" width="-1" x="770" y="211"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -21,7 +21,7 @@
   </class>  
   <class id="3" language="java" name="Crypto.Mitsper" project="Mitsper_Crypto" 
     file="/Mitsper_Crypto/src/Crypto/Mitsper.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="341" y="306"/>    
+    <position height="-1" width="-1" x="378" y="303"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -30,7 +30,7 @@
   </class>  
   <class id="4" language="java" name="Crypto.Key" project="Mitsper_Crypto" file="/Mitsper_Crypto/src/Crypto/Key.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="765" y="392"/>    
+    <position height="-1" width="-1" x="771" y="443"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -40,10 +40,10 @@
   <association id="5">    
     <end type="SOURCE" refId="2" navigable="false">      
       <attribute id="6" name="next_piece">        
-        <position height="0" width="0" x="0" y="0"/>      
+        <position height="0" width="0" x="-3" y="-19"/>      
       </attribute>      
       <multiplicity id="7" minimum="0" maximum="1">        
-        <position height="0" width="0" x="0" y="0"/>      
+        <position height="16" width="23" x="842" y="272"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="2" navigable="true"/>    
@@ -51,26 +51,26 @@
   </association>  
   <association id="8">    
     <end type="SOURCE" refId="1" navigable="false">      
-      <attribute id="9" name="key">        
-        <position height="0" width="0" x="0" y="0"/>      
+      <attribute id="9" name="board">        
+        <position height="18" width="36" x="656" y="226"/>      
       </attribute>      
-      <multiplicity id="10" minimum="0" maximum="1">        
-        <position height="0" width="0" x="0" y="0"/>      
+      <multiplicity id="10" minimum="0" maximum="2147483647">        
+        <position height="16" width="21" x="678" y="255"/>      
       </multiplicity>    
     </end>    
-    <end type="TARGET" refId="4" navigable="true"/>    
+    <end type="TARGET" refId="2" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <association id="11">    
     <end type="SOURCE" refId="1" navigable="false">      
-      <attribute id="12" name="board">        
-        <position height="0" width="0" x="0" y="0"/>      
+      <attribute id="12" name="key">        
+        <position height="18" width="25" x="659" y="351"/>      
       </attribute>      
-      <multiplicity id="13" minimum="0" maximum="2147483647">        
-        <position height="0" width="0" x="0" y="0"/>      
+      <multiplicity id="13" minimum="0" maximum="1">        
+        <position height="16" width="23" x="648" y="380"/>      
       </multiplicity>    
     </end>    
-    <end type="TARGET" refId="2" navigable="true"/>    
+    <end type="TARGET" refId="4" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
   <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 

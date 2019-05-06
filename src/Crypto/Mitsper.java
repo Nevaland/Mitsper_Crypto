@@ -2,13 +2,14 @@ package Crypto;
 
 public class Mitsper {
 	private final int BLOCK_SIZE = 64;
+	private final int FORWARD = 0;
+	private final int BACKWARD = 1;
+	
 	private String contents, key;
 	private int len;
 	private ChessObject c_object;
 	private Util util = new Util();
 
-	private final int FORWARD = 0;
-	private final int BACKWARD = 1;
 	
 	public Mitsper(String key, String contents) {
 		this.contents = util.str2hex(contents);
