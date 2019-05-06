@@ -3,20 +3,7 @@ package Crypto;
 import java.util.Scanner;
 
 public class Main {
-	public static void test() {
-		Util util = new Util();
-		String str = "test string is so simple text.";
-		System.out.println(str);
-		//str = str.substring(0,1) + str.substring(2);
-//		System.out.println(util.str2hex(str));
-		
-		Mitsper ms = new Mitsper("key",str);
-		ms.encrypt();
-		
-		System.exit(0);
-	}
 	public static void main(String[] args) {
-//        test();
 		// Basic Variables
 		int selection;
 		String content="default";

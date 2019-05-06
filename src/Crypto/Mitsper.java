@@ -18,17 +18,14 @@ public class Mitsper {
 	}
 
 	private int getLen(String contents) {
-//		System.out.println("[GET LEN]" + contents + " -> " + contents.length());
 		return contents.length();
 	}
 	private void padding() {
 		// Padding
 		if(len%BLOCK_SIZE != 0) {
-//			System.out.println("[PADDING]" + this.len);
 			for(int i=len; i<(len/BLOCK_SIZE)*BLOCK_SIZE+BLOCK_SIZE; i+=2) this.contents += "00";
 			this.len = getLen(this.contents);
 		}
-//		System.out.println("[padding]" + this.contents);
 	}
 	private String subContent(String contents, int index) {
 		// Substring
@@ -47,14 +44,8 @@ public class Mitsper {
 	public String encrypt() {
 		String content, encrypted="";
 		for(int i=0; i<len/BLOCK_SIZE; i++) {
-//			System.out.println("[encrypt]"+len); // String test = content;
 			content = subContent(this.contents,i);
 			this.c_object = new ChessObject(key, content);
-
-//			// test
-//			this.c_object.test();
-//			System.out.println("[len]"+len); // String test = content;
-//			for(int j=0; j<test.length();j+=2) {if(j%8==0) System.out.println(); System.out.print(test.substring(j, j+2)+" ");}
 			
 //			// Encryption
 			c_object.mapPiece(0);
@@ -70,6 +61,7 @@ public class Mitsper {
 				c_object.switchPiece();
 				c_object.checkmate(FORWARD);
 			}
+			
 			encrypted += c_object.getBlocks();
 		}
 		return util.hex2str(encrypted);
@@ -94,6 +86,7 @@ public class Mitsper {
 			c_object.inverseMovePiece();
 			c_object.checkmate(BACKWARD);
 			c_object.inverseMapPiece(0);
+			
 			decrypted += c_object.getBlocks();
 		}
 		return util.hex2str(decrypted);
