@@ -12,19 +12,20 @@ public class Mitsper {
 		this.len = getLen(this.contents);
 		padding();
 		this.key = key;
-		
 	}
 
 	private int getLen(String contents) {
+//		System.out.println("[GET LEN]" + contents + " -> " + contents.length());
 		return contents.length();
 	}
 	private void padding() {
 		// Padding
 		if(len%BLOCK_SIZE != 0) {
-//			System.out.println("[padding]"+ this.len);
+//			System.out.println("[PADDING]" + this.len);
 			for(int i=len; i<(len/BLOCK_SIZE)*BLOCK_SIZE+BLOCK_SIZE; i+=2) this.contents += "00";
 			this.len = getLen(this.contents);
 		}
+//		System.out.println("[padding]" + this.contents);
 	}
 	private String subContent(String contents, int index) {
 		// Substring
@@ -35,14 +36,15 @@ public class Mitsper {
 		this.key = key;
 	}
 	public void setContents(String contents) {
-		this.len = getLen(contents);
 		this.contents = util.str2hex(contents);
+		this.len = getLen(this.contents);
 		padding();
 	}
 	
 	public String encrypt() {
 		String content, encrypted="";
 		for(int i=0; i<len/BLOCK_SIZE; i++) {
+//			System.out.println("[encrypt]"+len); // String test = content;
 			content = subContent(this.contents,i);
 			this.c_object = new ChessObject(key, content);
 
@@ -51,7 +53,7 @@ public class Mitsper {
 //			System.out.println("[len]"+len); // String test = content;
 //			for(int j=0; j<test.length();j+=2) {if(j%8==0) System.out.println(); System.out.print(test.substring(j, j+2)+" ");}
 			
-			// Encryption
+//			// Encryption
 			c_object.mapPiece(0);
 			c_object.checkmate();
 			c_object.movePiece();
@@ -85,6 +87,7 @@ public class Mitsper {
 			}
 			c_object.inverseCheckmate();
 			c_object.switchPiece();
+			c_object.inverseCheckmate();
 			c_object.inverseMovePiece();
 			c_object.inverseCheckmate();
 			c_object.inverseMapPiece(0);
