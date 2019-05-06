@@ -53,9 +53,22 @@ public class Main {
 	            encrypted = "";
 	            break;
 	        case 3:
-	            System.out.print("Current Key: "+key+"\nYour Key: ");
-	            key = scan.nextLine();
-	            mc.setKey(key);
+	            System.out.print("Current Key: "+key+"\nPlease enter the key within 16 characters.\nYour Key: ");
+	            while(true)
+	            {
+	            	key = scan.nextLine();
+	            	
+	            	if(key.length()<=16)
+	            	{
+	            		mc.setKey(key);
+	            		break;
+	            	}
+	            	else
+	            	{
+	            		System.out.print("Please enter the key within 16 characters.\nYour Key: ");
+	            	}
+	            }
+	            
 	        	break;
 	        default:
 	        	System.out.println("[ERROR] "+selection+" is Invalid Number");
