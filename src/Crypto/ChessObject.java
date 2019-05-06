@@ -16,7 +16,6 @@ public class ChessObject {
 	
 	private Key key;
 	private String[] block = new String[2];
-	private Piece[] board = new Piece[256];
 	
 	public ChessObject(String key, String content) {
 		this.key = new Key(key);
