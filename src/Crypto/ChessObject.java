@@ -237,7 +237,7 @@ public class ChessObject {
 		maped_block[1] = subKey(round,maped_block[1]);
 		this.block = maped_block;
 	}
-	public void checkmate() {
+	public void checkmate(int dir) {
 //		System.out.println("BEFORE CHECK: "+this.block[1]);	// TEST
 		String[] king = {"","","",""};
 		int[] rotate = {0,0,0,0};
@@ -250,7 +250,6 @@ public class ChessObject {
 				x = Integer.parseInt(this.block[1].substring(i+1, i+2),16);
 				pan = getPan(y,x);
 				king[pan[0]*2+pan[1]] += String.format("%02d",i);
-				
 			}
 		}
 		for(int i=0; i<32; i+=2) {	// Pick Piece without King
@@ -294,19 +293,121 @@ public class ChessObject {
 					}
 					break;
 				case KNIGHT:
+					if(((y-2) & 0xf) == king_y) {
+						if(((x-1) & 0xf) == king_x) {
+							rotate[p]++;
+						}
+						else if(((x+1) & 0xf) == king_x) {
+							rotate[p]++;
+						}
+					}
+					else if(((y-1) & 0xf) == king_y) {
+						if(((x-2) & 0xf) == king_x) {
+							rotate[p]++;
+						}
+						else if(((x+2) & 0xf) == king_x) {
+							rotate[p]++;
+						}
+					}
+					else if(((y+1) & 0xf) == king_y) {
+						if(((x+2) & 0xf) == king_x) {
+							rotate[p]++;
+						}
+						else if(((x-2) & 0xf) == king_x) {
+							rotate[p]++;
+						}
+					}
+					else if(((y+2) & 0xf) == king_y) {
+						if(((x+1) & 0xf) == king_x) {
+							rotate[p]++;
+						}
+						else if(((x-1) & 0xf) == king_x) {
+							rotate[p]++;
+						}
+					}
 					break;
 				case ROOK:
+					if(((x-2) & 0xf) == king_x) {
+						rotate[p]++;
+					}
+					else if(((x-1) & 0xf) == king_x) {
+						rotate[p]++;
+					}
+					else if(((x+1) & 0xf) == king_x) {
+						rotate[p]++;
+					}
+					else if(((x+2) & 0xf) == king_x) {
+						rotate[p]++;
+					}
+					if(((y-2) & 0xf) == king_y) {
+						rotate[p]++;
+					}
+					else if(((y-1) & 0xf) == king_y) {
+						rotate[p]++;
+					}
+					else if(((y+1) & 0xf) == king_y) {
+						rotate[p]++;
+					}
+					else if(((y+2) & 0xf) == king_y) {
+						rotate[p]++;
+					}
 					break;
 				case BISHOP:
+					if(((y-1) & 0xf) == king_y) {
+						if(((x-1) & 0xf) == king_x) {
+							rotate[p]++;
+						}
+						else if(((x+1) & 0xf) == king_x) {
+							rotate[p]++;
+						}
+					}
+					else if(((y+1) & 0xf) == king_y) {
+						if(((x-1) & 0xf) == king_x) {
+							rotate[p]++;
+						}
+						else if(((x+1) & 0xf) == king_x) {
+							rotate[p]++;
+						}
+					}
 					break;
 				case QUEEN:
-					break;
-				case KING:
+					if(((y-2) & 0xf) == king_y) {
+						if(((x-2) & 0xf) == king_x) {
+							rotate[p]++;
+						}
+						else if(((x+2) & 0xf) == king_x) {
+							rotate[p]++;
+						}
+					}
+					else if(((y-1) & 0xf) == king_y) {
+						if(((x-1) & 0xf) == king_x) {
+							rotate[p]++;
+						}
+						else if(((x+1) & 0xf) == king_x) {
+							rotate[p]++;
+						}
+					}
+					else if(((y+1) & 0xf) == king_y) {
+						if(((x+1) & 0xf) == king_x) {
+							rotate[p]++;
+						}
+						else if(((x-1) & 0xf) == king_x) {
+							rotate[p]++;
+						}
+					}
+					else if(((y+2) & 0xf) == king_y) {
+						if(((x+2) & 0xf) == king_x) {
+							rotate[p]++;
+						}
+						else if(((x-2) & 0xf) == king_x) {
+							rotate[p]++;
+						}
+					}
 					break;
 				}
 			}
 		}
-		for(int p=0;p<4;p++) rotatePan(p, rotate[p], 0);
+		for(int p=0;p<4;p++) rotatePan(p, rotate[p], dir);
 //		System.out.println("AFTER CHECK: "+this.block[1]);	// TEST
 	}
 	public void movePiece() {
@@ -373,7 +474,6 @@ public class ChessObject {
 //		System.out.println("switched_block: "+this.block[0]);	// test
 	}
 
-
 	public void inverseMapPiece(int round) {
 		String[] maped_block = new String[2];
 		maped_block[0] = addKey(round,this.block[0]);
@@ -386,78 +486,134 @@ public class ChessObject {
 		maped_block[1] = subKey(round,maped_block[1]);
 		this.block = maped_block;
 	}
-	public void inverseCheckmate() {
-//		System.out.println("BEFORE InvCHECK: "+this.block[1]);	// TEST
-		String[] king = {"","","",""};
-		int[] rotate = {0,0,0,0};
-		for(int i=0;i<32;i+=2) {	// King Collecting
-			int x, y;
-			int pan[];
-			int chesstype = Integer.parseInt(this.block[0].substring(i, i+2),16) % 6;
-			if(chesstype == KING) {
-				y = Integer.parseInt(this.block[1].substring(i, i+1),16);
-				x = Integer.parseInt(this.block[1].substring(i+1, i+2),16);
-				pan = getPan(y,x);
-				king[pan[0]*2+pan[1]] += String.format("%02d",i);
-				
-			}
-		}
-		for(int i=0; i<32; i+=2) {	// Pick Piece without King
-			int chesstype = Integer.parseInt(this.block[0].substring(i, i+2),16) % 6;
-			if(chesstype == KING) continue;
-			
-			int x, y, p;
-			int pan[];
-			y = Integer.parseInt(this.block[1].substring(i, i+1),16);
-			x = Integer.parseInt(this.block[1].substring(i+1, i+2),16);
-			pan = getPan(y,x);
-			p = pan[0]*2+pan[1];
-			
-			for(int k=0; k<king[p].length(); k+=2) {	// Pick King in The Pan
-				int j = Integer.parseInt(king[p].substring(k, k+2),10);	// king's Position in Block
-				int king_y = Integer.parseInt(this.block[1].substring(j, j+1),16);
-				int king_x = Integer.parseInt(this.block[1].substring(j+1, j+2),16);
-
-//				System.out.println("chess: "+x+":"+y+"-"+king_x+":"+king_y);	// TEST
-				switch(chesstype) {
-				case PWN:
-					if(((x-1) & 0xf) == king_x) {
-						if(((y-1) & 0xf) == king_y) {
-							rotate[p]++;
-//							System.out.println("Cheskmate: "+x+":"+y+"-"+king_x+":"+king_y);	// TEST
-						}
-						else if(((y+1) & 0xf) == king_y) {
-							rotate[p]++;
-//							System.out.println("Cheskmate: "+x+":"+y+"-"+king_x+":"+king_y);	// TEST
-						}
-					}
-					else if(((x+1) & 0xf) == king_x) {
-						if(((y-1) & 0xf) == king_y) {
-							rotate[p]++;
-//							System.out.println("Cheskmate: "+x+":"+y+"-"+king_x+":"+king_y);	// TEST
-						}
-						else if(((y+1) & 0xf) == king_y) {
-							rotate[p]++;
-//							System.out.println("Cheskmate: "+x+":"+y+"-"+king_x+":"+king_y);	// TEST
-						}
-					}
-					break;
-				case KNIGHT:
-					break;
-				case ROOK:
-					break;
-				case BISHOP:
-					break;
-				case QUEEN:
-					break;
-				case KING:
-					break;
-				}
-			}
-		}
-		for(int p=0;p<4;p++) rotatePan(p, rotate[p], 1);
-//		System.out.println("AFTER InvCHECK: "+this.block[1]);	// TEST
-	}
+//	public void inverseCheckmate() {
+////		System.out.println("BEFORE InvCHECK: "+this.block[1]);	// TEST
+//		String[] king = {"","","",""};
+//		int[] rotate = {0,0,0,0};
+//		for(int i=0;i<32;i+=2) {	// King Collecting
+//			int x, y;
+//			int pan[];
+//			int chesstype = Integer.parseInt(this.block[0].substring(i, i+2),16) % 6;
+//			if(chesstype == KING) {
+//				y = Integer.parseInt(this.block[1].substring(i, i+1),16);
+//				x = Integer.parseInt(this.block[1].substring(i+1, i+2),16);
+//				pan = getPan(y,x);
+//				king[pan[0]*2+pan[1]] += String.format("%02d",i);
+//				
+//			}
+//		}
+//		for(int i=0; i<32; i+=2) {	// Pick Piece without King
+//			int chesstype = Integer.parseInt(this.block[0].substring(i, i+2),16) % 6;
+//			if(chesstype == KING) continue;
+//			
+//			int x, y, p;
+//			int pan[];
+//			y = Integer.parseInt(this.block[1].substring(i, i+1),16);
+//			x = Integer.parseInt(this.block[1].substring(i+1, i+2),16);
+//			pan = getPan(y,x);
+//			p = pan[0]*2+pan[1];
+//			
+//			for(int k=0; k<king[p].length(); k+=2) {	// Pick King in The Pan
+//				int j = Integer.parseInt(king[p].substring(k, k+2),10);	// king's Position in Block
+//				int king_y = Integer.parseInt(this.block[1].substring(j, j+1),16);
+//				int king_x = Integer.parseInt(this.block[1].substring(j+1, j+2),16);
+//
+////				System.out.println("chess: "+x+":"+y+"-"+king_x+":"+king_y);	// TEST
+//				switch(chesstype) {
+//				case PWN:
+//					if(((x-1) & 0xf) == king_x) {
+//						if(((y-1) & 0xf) == king_y) {
+//							rotate[p]++;
+////							System.out.println("Cheskmate: "+x+":"+y+"-"+king_x+":"+king_y);	// TEST
+//						}
+//						else if(((y+1) & 0xf) == king_y) {
+//							rotate[p]++;
+////							System.out.println("Cheskmate: "+x+":"+y+"-"+king_x+":"+king_y);	// TEST
+//						}
+//					}
+//					else if(((x+1) & 0xf) == king_x) {
+//						if(((y-1) & 0xf) == king_y) {
+//							rotate[p]++;
+////							System.out.println("Cheskmate: "+x+":"+y+"-"+king_x+":"+king_y);	// TEST
+//						}
+//						else if(((y+1) & 0xf) == king_y) {
+//							rotate[p]++;
+////							System.out.println("Cheskmate: "+x+":"+y+"-"+king_x+":"+king_y);	// TEST
+//						}
+//					}
+//					break;
+//				case KNIGHT:
+//					break;
+//				case ROOK:
+//					if(((x-2) & 0xf) == king_x) {
+//						rotate[p]++;
+//					}
+//					else if(((x-1) & 0xf) == king_x) {
+//						rotate[p]++;
+//					}
+//					else if(((x+1) & 0xf) == king_x) {
+//						rotate[p]++;
+//					}
+//					else if(((x+2) & 0xf) == king_x) {
+//						rotate[p]++;
+//					}
+//					if(((y-2) & 0xf) == king_y) {
+//						rotate[p]++;
+//					}
+//					else if(((y-1) & 0xf) == king_y) {
+//						rotate[p]++;
+//					}
+//					else if(((y+1) & 0xf) == king_y) {
+//						rotate[p]++;
+//					}
+//					else if(((y+2) & 0xf) == king_y) {
+//						rotate[p]++;
+//					}
+//					break;
+//				case BISHOP:
+//					if(((y-2) & 0xf) == king_y) {
+//						if(((x-2) & 0xf) == king_x) {
+//							rotate[p]++;
+//						}
+//						else if(((x+2) & 0xf) == king_x) {
+//							rotate[p]++;
+//						}
+//					}
+//					else if(((y-1) & 0xf) == king_y) {
+//						if(((x-1) & 0xf) == king_x) {
+//							rotate[p]++;
+//						}
+//						else if(((x+1) & 0xf) == king_x) {
+//							rotate[p]++;
+//						}
+//					}
+//					else if(((y+1) & 0xf) == king_y) {
+//						if(((x+1) & 0xf) == king_x) {
+//							rotate[p]++;
+//						}
+//						else if(((x+1) & 0xf) == king_x) {
+//							rotate[p]++;
+//						}
+//					}
+//					else if(((y+2) & 0xf) == king_y) {
+//						if(((x-2) & 0xf) == king_x) {
+//							rotate[p]++;
+//						}
+//						else if(((x-2) & 0xf) == king_x) {
+//							rotate[p]++;
+//						}
+//					}
+//					break;
+//				case QUEEN:
+//					break;
+//				case KING:
+//					break;
+//				}
+//			}
+//		}
+//		for(int p=0;p<4;p++) rotatePan(p, rotate[p], 1);
+////		System.out.println("AFTER InvCHECK: "+this.block[1]);	// TEST
+//	}
 	public void inverseMovePiece() {
 
 		String moved = "";
