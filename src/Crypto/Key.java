@@ -5,9 +5,9 @@ import java.lang.Integer;
 
 public class Key
 {
-	private String[] key = new String[10];			//12占쏙옙占쏙옙占쏙옙 key 占썼열
-	private String CBox = new String();			//chessbox
-	private String constantBox = new String();		//첫 key 占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙 占쏙옙占쏙옙占쏙옙 占쏙옙占쏙옙占�
+	private String[] key = new String[10];
+	private String CBox = new String();
+	private String constantBox = new String();
     private ConstantNode head = null;
 
     public class ConstantNode
