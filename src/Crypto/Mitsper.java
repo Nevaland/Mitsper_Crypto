@@ -6,6 +6,9 @@ public class Mitsper {
 	private int len;
 	private ChessObject c_object;
 	private Util util = new Util();
+
+	private final int FORWARD = 0;
+	private final int BACKWARD = 1;
 	
 	public Mitsper(String key, String contents) {
 		this.contents = util.str2hex(contents);
@@ -55,17 +58,17 @@ public class Mitsper {
 			
 //			// Encryption
 			c_object.mapPiece(0);
-			c_object.checkmate();
+			c_object.checkmate(FORWARD);
 			c_object.movePiece();
-			c_object.checkmate();
+			c_object.checkmate(FORWARD);
 			c_object.switchPiece();
-			c_object.checkmate();
+			c_object.checkmate(FORWARD);
 			for(int j=1;j<10;j++) {
 				c_object.mapPiece(j);
 				c_object.movePiece();
-				c_object.checkmate();
+				c_object.checkmate(FORWARD);
 				c_object.switchPiece();
-				c_object.checkmate();
+				c_object.checkmate(FORWARD);
 			}
 			encrypted += c_object.getBlocks();
 		}
@@ -79,17 +82,17 @@ public class Mitsper {
 
 			// Decryption
 			for(int j=9;j>0;j--) {
-				c_object.inverseCheckmate();
+				c_object.checkmate(BACKWARD);
 				c_object.switchPiece();
-				c_object.inverseCheckmate();
+				c_object.checkmate(BACKWARD);
 				c_object.inverseMovePiece();
 				c_object.inverseMapPiece(j);
 			}
-			c_object.inverseCheckmate();
+			c_object.checkmate(BACKWARD);
 			c_object.switchPiece();
-			c_object.inverseCheckmate();
+			c_object.checkmate(BACKWARD);
 			c_object.inverseMovePiece();
-			c_object.inverseCheckmate();
+			c_object.checkmate(BACKWARD);
 			c_object.inverseMapPiece(0);
 			decrypted += c_object.getBlocks();
 		}
