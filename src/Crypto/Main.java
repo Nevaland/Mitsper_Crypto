@@ -20,6 +20,7 @@ public class Main {
 		// Basic Variables
 		int selection;
 		String content="default";
+		String encrypted=" ";
         Scanner scan = new Scanner(System.in);
 
         // Mitsper Variables
@@ -30,7 +31,8 @@ public class Main {
         	// Banner and Select Menu
 			System.out.println("--------------------------------\n"
 					+ "MITSPER Private Key Encryption\n"
-					+ "Key: "+key+"\n\n"
+					+ "Key: "+key+"\n"
+					+ "Encrypted: ["+encrypted+"]\n\n"
 					+ "1. Encryption\n"
 					+ "2. Decryption\n"
 					+ "3. Key Setting\n"
@@ -42,9 +44,8 @@ public class Main {
 	        	System.out.println("Exiting ...");
 	        	break;
 	        }
-	        
 	        // Enter a String
-	        if(selection != 3) {
+	        if(selection != 3 && selection != 2) {
 		        System.out.print("Please Enter a String: ");
 		        content = scan.nextLine();
 	        }
@@ -52,10 +53,15 @@ public class Main {
 	        switch(selection) {
 	        case 1:
 	        	mc.setContents(content);
-	            System.out.println("Encrypted String: ["+mc.encrypt()+"]\n");
+	        	encrypted = mc.encrypt();
+	            System.out.println("Encrypted String: ["+encrypted+"]\n");
 	        	break;
 	        case 2:
-	        	mc.setContents(content);
+	        	if(encrypted.equals(" ")) {
+	        		System.out.println("Encrypt First");
+	        		break;
+	        	}
+	        	mc.setContents(encrypted);
 	            System.out.println("Decrypted String: ["+mc.decrypt()+"]\n");
 	        	break;
 	        case 3:
