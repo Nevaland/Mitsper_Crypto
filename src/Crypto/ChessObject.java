@@ -206,6 +206,8 @@ public class ChessObject {
 		maped_block[0] = subKey(round, maped_block[0]);
 		maped_block[1] = subKey(round, maped_block[1]);
 		this.block = maped_block;
+		
+//		printBlock();
 	}
 	public void checkmate(int dir) {
 		String[] king = {"","","",""};
@@ -442,6 +444,8 @@ public class ChessObject {
 		maped_block[0] = subKey(round, maped_block[0]);
 		maped_block[1] = subKey(round, maped_block[1]);
 		this.block = maped_block;
+		
+//		printBlock();
 	}
 
 	public void inverseMovePiece() {
@@ -495,20 +499,17 @@ public class ChessObject {
 		this.block[1] = moved;
 	}
 	
-	public void test() {
-		System.out.println("block[0]: "+this.block[0]);
-		System.out.println("block[1]: "+this.block[1]);
-//		Piece p;
-//		for(int i=0;i<256;i++)
-//			if(this.board[i]!=null) {
-//				p=this.board[i];
-//				while(p!=null) {
-//					System.out.print(this.block[0].substring(p.index,p.index+2)+" ");
-//					p=p.next_piece;
-//				}
-//				System.out.println(String.format("%02x",i));
-//			}
-//		System.out.println("tests:    ");
-		switchPiece();
+	public String printBlock(String status) {
+		String output = "";
+		output += "- "+status+" -\n";
+		for(int i=0; i<4; i++) {
+			for(int j=0; j<8; j+=2) output += this.block[0].substring(i*8+j, i*8+j+2)+" ";
+			output += "| ";
+			for(int j=0; j<8; j+=2) output += this.block[1].substring(i*8+j, i*8+j+2)+" ";
+			output += "\n";
+		}
+		output += "\n";
+		
+		return output;
 	}
 }
