@@ -50,7 +50,8 @@ public class Main {
 	        	}
 	        	mc.setContents(encrypted);
 	            System.out.println("Decrypted String: ["+mc.decrypt()+"]\n");
-	        	break;
+	            encrypted = "";
+	            break;
 	        case 3:
 	            System.out.print("Current Key: "+key+"\nYour Key: ");
 	            key = scan.nextLine();
