@@ -12,39 +12,42 @@ public class RSA
 	private SecureRandom random = new SecureRandom();
 	
 	private BigInteger publicKey;
-	private BigInteger privateKey;
 	
 	private BigInteger N;
 	
-	public RSA(int bitLength)
+	public BigInteger generateRSA(int bitLength)	//make keys
 	{
 		BigInteger p = BigInteger.probablePrime(bitLength / 2, random);
 		BigInteger q = BigInteger.probablePrime(bitLength / 2, random);
 		BigInteger phi = (p.subtract(one)).multiply(q.subtract(one));
-		
-		this.publicKey = new BigInteger("65537");
-		this.privateKey = publicKey.modInverse(phi);
+		BigInteger privateKey;
+		while(true)
+		{
+			this.publicKey = BigInteger.probablePrime(bitLength / 2, random);
+			if(phi.mod(publicKey) != new BigInteger("0"))
+				break;
+		}
+		privateKey = publicKey.modInverse(phi);
 		this.N = p.multiply(q);
-		System.out.println("p = " + p.toString());
-		System.out.println("q = " + q.toString());
-		System.out.println("privateKey = " + privateKey.toString());
+		
+		return privateKey;
 	}
 	
-	public BigInteger encrypt(BigInteger data)
+	public BigInteger encrypt(BigInteger data)		//encrypt
 	{
 		return data.modPow(publicKey, N);
 	}
 	
-	public BigInteger decrypt(BigInteger encryptedData)
+	public BigInteger decrypt(BigInteger encryptedData, BigInteger privateKey)	//decrypt
 	{
 		return encryptedData.modPow(privateKey, N);
 	}
-	public String encrypt(String message)
+	public String encrypt(String message)		//String encrypt
 	{
-		return this.encrypt(new BigInteger(message,16)).toString(16);
+		return this.encrypt(new BigInteger(message, 16)).toString(16);
 	}
-	public String decrypt(String message)
+	public String decrypt(String message, BigInteger privateKey)		//String decrypt
 	{
-		return this.decrypt(new BigInteger(message,16)).toString(16);
+		return this.decrypt(new BigInteger(message, 16), privateKey).toString(16);
 	}
 }
