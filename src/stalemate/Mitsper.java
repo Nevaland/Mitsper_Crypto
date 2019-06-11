@@ -11,7 +11,7 @@ public class Mitsper {
 	private Util util = new Util();
 
 	public Mitsper(String key, String contents) {
-		this.contents = util.str2hex(contents);
+		this.contents = contents; // util.str2hex(contents);
 		this.len = getLen(this.contents);
 		padding();
 		this.key = key;
@@ -36,9 +36,11 @@ public class Mitsper {
 		this.key = key;
 	}
 	public void setContents(String contents) {
-		this.contents = util.str2hex(contents);
+		System.out.println("<<<SetContents 1>>> "+contents);
+		this.contents = contents; // util.str2hex(contents);
 		this.len = getLen(this.contents);
 		padding();
+		System.out.println("<<<SetContents 2>>> "+this.contents);
 	}
 	
 	public String encrypt() {
@@ -68,7 +70,7 @@ public class Mitsper {
 			encrypted += c_object.getBlocks();
 		}
 		System.out.print(output_bf + output_aft);
-		return util.hex2str(encrypted);
+		return encrypted; // util.hex2str(encrypted);
 	}
 	public String decrypt() {
 		String content, decrypted="";
@@ -97,6 +99,6 @@ public class Mitsper {
 			decrypted += c_object.getBlocks();
 		}
 		System.out.print(output_bf + output_aft);
-		return util.hex2str(decrypted);
+		return decrypted; // util.hex2str(decrypted);
 	}
 }
