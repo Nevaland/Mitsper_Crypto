@@ -1,4 +1,4 @@
-package checkmate;
+package safebox;
 import java.math.BigInteger;
 
 public class RSAManager {

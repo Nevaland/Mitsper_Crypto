@@ -1,4 +1,4 @@
-package checkmate;
+package safebox;
 
 public class Util {
 	public String str2hex(String str) {
