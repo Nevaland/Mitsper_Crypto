@@ -36,11 +36,11 @@ public class Mitsper {
 		this.key = key;
 	}
 	public void setContents(String contents) {
-		System.out.println("<<<SetContents 1>>> "+contents);
+//		System.out.println("<<<SetContents 1>>> "+contents);
 		this.contents = contents; // util.str2hex(contents);
 		this.len = getLen(this.contents);
 		padding();
-		System.out.println("<<<SetContents 2>>> "+this.contents);
+//		System.out.println("<<<SetContents 2>>> "+this.contents);
 	}
 	
 	public String encrypt() {

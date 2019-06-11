@@ -30,27 +30,26 @@ public class Main {
                 String msg = br.readLine();
                 if (msg.equalsIgnoreCase("Quit"))
                     break;
-                System.out.println("Received Data:[ " + msg + " ]");
+//                System.out.println("Received Data:[ " + msg + " ]");
                 if (msg.equalsIgnoreCase("Request"))
                 	msg = pub_key;
                 else {
                 	if(sym_key == "")
-                		sym_key = cm.pubDecrypt(msg);
-                		
+                		sym_key = msg;
                 	else {
-                		System.out.println("Received Decrypted Data:[ " + cm.symDecrypt(msg) + " ]");
+                		msg = cm.symDecrypt(sym_key, msg);
+                		System.out.println("Received Data:["+msg+"]");
                 	}
 //                	System.out.print("Input: ");
 //                	msg = sc.nextLine();
-//                	msg = cm.encrypt(sym_key);
-                	msg = "Test Response";
+//                	msg = cm.encrypt(sym_key)
                 }
                 out.println(msg);
                 out.flush();
             }
             System.out.println("Stop..");
         } catch (IOException e) {
-            e.printStackTrace();
+//            e.printStackTrace();
         }
     }
 	
@@ -65,16 +64,16 @@ public class Main {
         
         System.out.println("Connected....");
 
-        out.println("request");
-        out.flush();
-        pub_key = networkIn.readLine();
+//        out.println("request");
+//        out.flush();
+//        pub_key = networkIn.readLine();
 
-        out.println(cm.pubEncrypt(pub_key, sym_key));
+        out.println(sym_key);
         out.flush();
         networkIn.readLine();
         
         while (true) {
-			System.out.print("Input(q:quit): ");
+			System.out.print("Input(or quit): ");
         	data = sc.nextLine();
         	
             out.println(cm.symEncrypt(sym_key, data));
@@ -139,8 +138,6 @@ public class Main {
     	String key = "";
 		Checkmate cm = new Checkmate();
     	
-//    	System.out.println(ip+"-"+port+"-"+input_type);
-    	
         Scanner sc = new Scanner(System.in);
         int menu = 0;
 
@@ -149,13 +146,15 @@ public class Main {
 		while(menu != 3) {
 			System.out.print(menu_banner);
 			menu = sc.nextInt();
+			sc.nextLine();
+			
 			switch(menu) {
 			case 1:
-				System.out.print("-----------------\nIP: "+ip+"\nPORT: "+port+"\n-----------------\\n");
+				System.out.print("-----------------\nIP: "+ip+"\nPORT: "+port+"\n-----------------\n");
 				
 		    	// Sender
-				if(input_type == "1") {	// by Interface
-					System.out.println("Key: ");
+				if(input_type.equals("1")) {	// by Interface
+					System.out.print("Key: ");
 					key = sc.nextLine();
 					
 					try {
@@ -173,7 +172,6 @@ public class Main {
 //						if(data=="q") break;
 //						
 //					}
-//					
 //				}
 
 				break;
@@ -181,8 +179,8 @@ public class Main {
 				cm.genSafebox();
 				
 				// Listener
-				System.out.print("-----------------\nPORT: "+port);
-		    	listen(getPubkey(), cm);
+				System.out.println("-----------------\nPORT: "+port);
+		    	listen("", cm);
 				break;
 			}
 		}
