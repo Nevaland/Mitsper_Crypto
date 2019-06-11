@@ -1,10 +1,95 @@
 package test;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.net.SocketException;
+import java.net.UnknownHostException;
 import java.util.Scanner;
 
 import checkmate.Checkmate;
 
 public class Main {	
+	public static void listen(String pub_key, Checkmate cm) {
+		try (ServerSocket serverSocket = new ServerSocket(4321);
+            Socket socket = serverSocket.accept();
+            PrintWriter out = new PrintWriter(socket.getOutputStream());
+            BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
+			Scanner sc = new Scanner(System.in);
+			String sym_key = "";
+			
+            System.out.println("Listening....");
+            while (true) {
+                String msg = br.readLine();
+                if (msg.equalsIgnoreCase("Quit"))
+                    break;
+                System.out.println("Received Data:[ " + msg + " ]");
+                if (msg.equalsIgnoreCase("Request"))
+                	msg = pub_key;
+                else {
+                	if(sym_key == "")
+                		sym_key = cm.pubDecrypt(msg);
+                		
+                	else {
+                		System.out.println("Received Decrypted Data:[ " + cm.symDecrypt(msg) + " ]");
+                	}
+//                	System.out.print("Input: ");
+//                	msg = sc.nextLine();
+//                	msg = cm.encrypt(sym_key);
+                	msg = "Test Response";
+                }
+                out.println(msg);
+                out.flush();
+            }
+            System.out.println("Stop..");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+	
+	public static void client(String ip, Checkmate cm, String sym_key) throws UnknownHostException, IOException {
+        Socket socket = new Socket(ip, 4321);
+        PrintWriter out = new PrintWriter(socket.getOutputStream());
+        BufferedReader networkIn = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        BufferedReader userIn = new BufferedReader(new InputStreamReader(System.in));
+        Scanner sc = new Scanner(System.in);
+        String pub_key = "";
+        String data = "";
+        
+        System.out.println("Connected....");
+
+        out.println("request");
+        out.flush();
+        pub_key = networkIn.readLine();
+
+        out.println(cm.pubEncrypt(pub_key, sym_key));
+        out.flush();
+        networkIn.readLine();
+        
+        while (true) {
+			System.out.print("Input(q:quit): ");
+        	data = sc.nextLine();
+        	
+            out.println(cm.symEncrypt(sym_key, data));
+            out.flush();
+            if (data.equalsIgnoreCase("Quit"))
+                break;
+            networkIn.readLine();
+//            System.out.println("Received Data:[ " + networkIn.readLine() + " ]");
+        }
+        System.out.println("Stop..");
+        networkIn.close();
+        out.close();
+        socket.close();
+    }
+		
 	public static String file_read(String filename) {
 		try {
 	        FileInputStream fileStream = null;
@@ -67,33 +152,37 @@ public class Main {
 			switch(menu) {
 			case 1:
 				System.out.print("-----------------\nIP: "+ip+"\nPORT: "+port+"\n-----------------\\n");
-				// send("REQUEST");
-				// cm. = listen();
 				
 		    	// Sender
 				if(input_type == "1") {	// by Interface
-					while(true) {
-						System.out.print("Input(q:quit): ");
-						data = sc.nextLine();
-						if(data=="q") break;
-						
-					}
-				}
-				else {	// by File
-					while(true) {
-						data = file_read("input");
-						System.out.println("Input(q:quit): "+data);
-						if(data=="q") break;
-						
-					}
+					System.out.println("Key: ");
+					key = sc.nextLine();
 					
+					try {
+						client(ip, cm, key);
+					} catch (UnknownHostException e) {
+						e.printStackTrace();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
 				}
-				
+//				else {	// by File
+//					while(true) {
+//						data = file_read("input");
+//						System.out.println("Input(q:quit): "+data);
+//						if(data=="q") break;
+//						
+//					}
+//					
+//				}
+
 				break;
 			case 2:
-				System.out.print("-----------------\nPORT: "+port+"\n-----------------\\n");
-		    	// Listener
+				cm.genSafebox();
 				
+				// Listener
+				System.out.print("-----------------\nPORT: "+port);
+		    	listen(getPubkey(), cm);
 				break;
 			}
 		}
