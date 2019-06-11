@@ -30,7 +30,7 @@ public class Main {
                 String msg = br.readLine();
                 if (msg.equalsIgnoreCase("Quit"))
                     break;
-//                System.out.println("Received Data:[ " + msg + " ]");
+
                 if (msg.equalsIgnoreCase("Request"))
                 	msg = pub_key;
                 else {
@@ -40,9 +40,6 @@ public class Main {
                 		msg = cm.symDecrypt(sym_key, msg);
                 		System.out.println("Received Data:["+msg+"]");
                 	}
-//                	System.out.print("Input: ");
-//                	msg = sc.nextLine();
-//                	msg = cm.encrypt(sym_key)
                 }
                 out.println(msg);
                 out.flush();
@@ -52,7 +49,7 @@ public class Main {
 //            e.printStackTrace();
         }
     }
-	
+
 	public static void client(String ip, Checkmate cm, String sym_key) throws UnknownHostException, IOException {
         Socket socket = new Socket(ip, 4321);
         PrintWriter out = new PrintWriter(socket.getOutputStream());
@@ -76,13 +73,40 @@ public class Main {
 			System.out.print("Input(or quit): ");
         	data = sc.nextLine();
         	
-            out.println(cm.symEncrypt(sym_key, data));
+            out.println(data.equalsIgnoreCase("Quit") ? data : cm.symEncrypt(sym_key, data));
             out.flush();
             if (data.equalsIgnoreCase("Quit"))
                 break;
             networkIn.readLine();
 //            System.out.println("Received Data:[ " + networkIn.readLine() + " ]");
         }
+        System.out.println("Stop..");
+        networkIn.close();
+        out.close();
+        socket.close();
+    }
+	public static void client_one(String ip, Checkmate cm, String sym_key, String data) throws UnknownHostException, IOException {
+        Socket socket = new Socket(ip, 4321);
+        PrintWriter out = new PrintWriter(socket.getOutputStream());
+        BufferedReader networkIn = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+        BufferedReader userIn = new BufferedReader(new InputStreamReader(System.in));
+        String pub_key = "";
+        
+        System.out.println("Connected....");
+
+        out.println(sym_key);
+        out.flush();
+        networkIn.readLine();
+
+        out.println(cm.symEncrypt(sym_key, data));
+        out.flush();
+        networkIn.readLine();
+        
+        data = "quit";
+        out.println(data);
+        out.flush();
+        networkIn.readLine();
+        
         System.out.println("Stop..");
         networkIn.close();
         out.close();
@@ -130,10 +154,10 @@ public class Main {
     			+ " 2. Listener Mode\n"
     			+ " 3. Exit\n"
 				+ " MENU(1~3): ";
-    	String op_data = (file_read(op_name));
-    	String ip = op_data.substring(0,op_data.indexOf("\n")-1);
-    	String port = op_data.substring(op_data.indexOf("\n")+1,op_data.lastIndexOf("\n")-1);
-    	String input_type = op_data.substring(op_data.lastIndexOf("\n")+1);
+    	String op_data;
+    	String ip ;
+    	String port;
+    	String input_type;
     	String data = "";
     	String key = "";
 		Checkmate cm = new Checkmate();
@@ -147,7 +171,11 @@ public class Main {
 			System.out.print(menu_banner);
 			menu = sc.nextInt();
 			sc.nextLine();
-			
+
+	    	op_data = (file_read(op_name));
+	    	ip = op_data.substring(0,op_data.indexOf("\n")-1);
+	    	port = op_data.substring(op_data.indexOf("\n")+1,op_data.lastIndexOf("\n")-1);
+	    	input_type = op_data.substring(op_data.lastIndexOf("\n")+1);
 			switch(menu) {
 			case 1:
 				System.out.print("-----------------\nIP: "+ip+"\nPORT: "+port+"\n-----------------\n");
@@ -165,14 +193,21 @@ public class Main {
 						e.printStackTrace();
 					}
 				}
-//				else {	// by File
-//					while(true) {
-//						data = file_read("input");
-//						System.out.println("Input(q:quit): "+data);
-//						if(data=="q") break;
-//						
-//					}
-//				}
+				else {	// by File
+					key = file_read("key");
+					data = file_read("input");
+
+					System.out.println("key: "+key);
+					System.out.println("Input: "+data);
+					
+					try {
+						client_one(ip, cm, key, data);
+					} catch (UnknownHostException e) {
+						e.printStackTrace();
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
 
 				break;
 			case 2:
