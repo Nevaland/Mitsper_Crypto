@@ -1,14 +1,8 @@
 package test;
+import java.io.FileInputStream;
 import java.util.Scanner;
 
-import java.io.BufferedInputStream;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.BufferedOutputStream;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
+import checkmate.Checkmate;
 
 public class Main {	
 	public static String file_read(String filename) {
@@ -30,7 +24,8 @@ public class Main {
 	public static void main(String[] args) {
 		// Basic Variables
 		String op_name = "option"; // ip, port, input_type
-		String ip_name = "input"; // ip, port, input_type
+		String ip_name = "input";
+		String k_name = "key";
     	String main_banner = 
   			  	  "----------------------------------------------------------------\n" +
     			  "                _   _               .-.        _\r\n" + 
@@ -44,6 +39,7 @@ public class Main {
     			+ "-               CheckMate Encryption Test Program              -\n"
     			+ "-                    [Option File: "+op_name+"]                     -\n"
     			+ "-                     [Input File: "+ip_name+"]                      -\n"
+    			+ "-                       [Key File: "+k_name+"]                        -\n"
     			+ "----------------------------------------------------------------\n";
     	String menu_banner = 
     			  " 1. Sender Mode\n"
@@ -55,6 +51,8 @@ public class Main {
     	String port = op_data.substring(op_data.indexOf("\n")+1,op_data.lastIndexOf("\n")-1);
     	String input_type = op_data.substring(op_data.lastIndexOf("\n")+1);
     	String data = "";
+    	String key = "";
+		Checkmate cm = new Checkmate();
     	
 //    	System.out.println(ip+"-"+port+"-"+input_type);
     	
@@ -69,16 +67,26 @@ public class Main {
 			switch(menu) {
 			case 1:
 				System.out.print("-----------------\nIP: "+ip+"\nPORT: "+port+"\n-----------------\\n");
+				// send("REQUEST");
+				// cm. = listen();
 				
 		    	// Sender
 				if(input_type == "1") {	// by Interface
-					System.out.print("Input: ");
-					data = sc.nextLine();
-					
+					while(true) {
+						System.out.print("Input(q:quit): ");
+						data = sc.nextLine();
+						if(data=="q") break;
+						
+					}
 				}
 				else {	// by File
-					data = file_read("input");
-					System.out.println("Input: "+data);
+					while(true) {
+						data = file_read("input");
+						System.out.println("Input(q:quit): "+data);
+						if(data=="q") break;
+						
+					}
+					
 				}
 				
 				break;
