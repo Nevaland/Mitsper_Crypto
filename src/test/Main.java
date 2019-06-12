@@ -61,10 +61,6 @@ public class Main {
         
         System.out.println("Connected....");
 
-//        out.println("request");
-//        out.flush();
-//        pub_key = networkIn.readLine();
-
         out.println(sym_key);
         out.flush();
         networkIn.readLine();
@@ -78,7 +74,6 @@ public class Main {
             if (data.equalsIgnoreCase("Quit"))
                 break;
             networkIn.readLine();
-//            System.out.println("Received Data:[ " + networkIn.readLine() + " ]");
         }
         System.out.println("Stop..");
         networkIn.close();
