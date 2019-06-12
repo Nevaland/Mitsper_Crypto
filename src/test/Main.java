@@ -17,8 +17,8 @@ import java.util.Scanner;
 import checkmate.Checkmate;
 
 public class Main {	
-	public static void listen(String pub_key, Checkmate cm) {
-		try (ServerSocket serverSocket = new ServerSocket(4321);
+	public static void listen(String pub_key, Checkmate cm, int port) {
+		try (ServerSocket serverSocket = new ServerSocket(port);
             Socket socket = serverSocket.accept();
             PrintWriter out = new PrintWriter(socket.getOutputStream());
             BufferedReader br = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
@@ -50,8 +50,8 @@ public class Main {
         }
     }
 
-	public static void client(String ip, Checkmate cm, String sym_key) throws UnknownHostException, IOException {
-        Socket socket = new Socket(ip, 4321);
+	public static void client(String ip, Checkmate cm, String sym_key, int port) throws UnknownHostException, IOException {
+        Socket socket = new Socket(ip, port);
         PrintWriter out = new PrintWriter(socket.getOutputStream());
         BufferedReader networkIn = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         BufferedReader userIn = new BufferedReader(new InputStreamReader(System.in));
@@ -85,8 +85,8 @@ public class Main {
         out.close();
         socket.close();
     }
-	public static void client_one(String ip, Checkmate cm, String sym_key, String data) throws UnknownHostException, IOException {
-        Socket socket = new Socket(ip, 4321);
+	public static void client_one(String ip, Checkmate cm, String sym_key, String data, int port) throws UnknownHostException, IOException {
+        Socket socket = new Socket(ip, port);
         PrintWriter out = new PrintWriter(socket.getOutputStream());
         BufferedReader networkIn = new BufferedReader(new InputStreamReader(socket.getInputStream()));
         BufferedReader userIn = new BufferedReader(new InputStreamReader(System.in));
@@ -143,11 +143,11 @@ public class Main {
     			  " \\        /    |     |    .' '.     | |   `.       .'     /   |  \r\n" + 
     			  "  \\_.--._/    /_.---._\\  .'___'.  ._' '_.  )_.---._(     /____|\r\n" + 
     			  "  '.____.'    '._____.'  `-----'  '--^--'  `._____.'    `.____.'\n"
-      			+ "----------------------------------------------------------------\n"
-    			+ "-               CheckMate Encryption Test Program              -\n"
-    			+ "-                    [Option File: "+op_name+"]                     -\n"
-    			+ "-                     [Input File: "+ip_name+"]                      -\n"
-    			+ "-                       [Key File: "+k_name+"]                        -\n"
+      			+ "-----------------------------------------------------------------\n"
+    			+ "-                CheckMate Encryption Test Program              -\n"
+    			+ "-                     [Option File: "+op_name+"]                     -\n"
+    			+ "-                      [Input File: "+ip_name+"]                      -\n"
+    			+ "-                        [Key File: "+k_name+"]                        -\n"
     			+ "----------------------------------------------------------------\n";
     	String menu_banner = 
     			  " 1. Sender Mode\n"
@@ -156,7 +156,7 @@ public class Main {
 				+ " MENU(1~3): ";
     	String op_data;
     	String ip ;
-    	String port;
+    	int port;
     	String input_type;
     	String data = "";
     	String key = "";
@@ -174,7 +174,7 @@ public class Main {
 
 	    	op_data = (file_read(op_name));
 	    	ip = op_data.substring(0,op_data.indexOf("\n")-1);
-	    	port = op_data.substring(op_data.indexOf("\n")+1,op_data.lastIndexOf("\n")-1);
+	    	port = Integer.parseInt(op_data.substring(op_data.indexOf("\n")+1,op_data.lastIndexOf("\n")-1));
 	    	input_type = op_data.substring(op_data.lastIndexOf("\n")+1);
 			switch(menu) {
 			case 1:
@@ -186,7 +186,7 @@ public class Main {
 					key = sc.nextLine();
 					
 					try {
-						client(ip, cm, key);
+						client(ip, cm, key, port);
 					} catch (UnknownHostException e) {
 						e.printStackTrace();
 					} catch (IOException e) {
@@ -201,7 +201,7 @@ public class Main {
 					System.out.println("Input: "+data);
 					
 					try {
-						client_one(ip, cm, key, data);
+						client_one(ip, cm, key, data, port);
 					} catch (UnknownHostException e) {
 						e.printStackTrace();
 					} catch (IOException e) {
@@ -215,11 +215,11 @@ public class Main {
 				
 				// Listener
 				System.out.println("-----------------\nPORT: "+port);
-		    	listen("", cm);
+		    	listen("", cm, port);
 				break;
 			}
 		}
-
+		sc.close();
 	}
 	
 }

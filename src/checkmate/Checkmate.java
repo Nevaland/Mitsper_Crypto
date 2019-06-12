@@ -45,7 +45,6 @@ public class Checkmate {
 		return Decrypted;
 	}
 	public String pubEncrypt(String pub_key, String data) {
-		
 		return "";
 	}
 	public String symEncrypt(String sym_key, String data) {
